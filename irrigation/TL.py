@@ -214,7 +214,7 @@ for critcolno in critno:
 	counter+=1
 
 #convert float array to string list
-vlfloat=np.tolist(villagelist)
+vlfloat=villagelist.tolist()
 vl = ["%.2f" % x for x in vlfloat]
 
 #Temporary stage: OUTPUT an XYZ text file
