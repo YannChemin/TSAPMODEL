@@ -1,5 +1,8 @@
 #!/bin/bash
 
+rm -f villages.csv
+rm -f points.*
+
 echo "self-test system for TonleSap mapping structure"
 
 python TL.py

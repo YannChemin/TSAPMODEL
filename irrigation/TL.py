@@ -183,26 +183,26 @@ def assignvpwc(vil1rowno,vil2rowno,critcolno,counter):
 		exit(1)
 
 	if(LessIsBetter==True):
-		if(value>0):
-			villagelist[vil1rowno]=float(value)
-			villagelist[vil2rowno]=0.0
-		elif(value==0):
-			villagelist[vil1rowno]=0.0
-			villagelist[vil2rowno]=0.0
+		if(value > 0):
+			vil1out=float(value)
+			vil2out=0.0
+		elif(value == 0):
+			vil1out=0.0
+			vil2out=0.0
 		else:
-			villagelist[vil2rowno]=float(value)
-			villagelist[vil1rowno]=0.0
+			vil2out=float(value)
+			vil1out=0.0
 	else:#MoreIsBetter
-		if(value<0):
-			villagelist[vil1rowno]=float(value)
-			villagelist[vil2rowno]=0.0
-		elif(value==0):
-			villagelist[vil1rowno]=0.0
-			villagelist[vil2rowno]=0.0
+		if(value < 0):
+			vil1out=float(value)
+			vil2out=0.0
+		elif(value == 0):
+			vil1out=0.0
+			vil2out=0.0
 		else:
-			villagelist[vil2rowno]=float(value)
-			villagelist[vil1rowno]=0.0
-	return(villagelist)
+			vil2out=float(value)
+			vil1out=0.0
+	return vil1out,vil2out
 
 #set counter for weight and lmib user input forwarding
 counter=0
@@ -210,9 +210,8 @@ for critcolno in critno:
 	print("critcolno=%d" % critcolno)
 	for vil1rowno in range(data.shape[0]):
 		for vil2rowno in range(data.shape[0]):
-			assignvpwc(vil1rowno,vil2rowno,critcolno,counter)
+			villagelist[vil1rowno],villagelist[vil2rowno]=assignvpwc(vil1rowno,vil2rowno,critcolno,counter)
 	counter+=1
-
 
 #Temporary stage: OUTPUT an XYZ text file
 f=open("villages.csv","w")
