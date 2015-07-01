@@ -213,11 +213,15 @@ for critcolno in critno:
 			villagelist[vil1rowno],villagelist[vil2rowno]=assignvpwc(vil1rowno,vil2rowno,critcolno,counter)
 	counter+=1
 
+#convert float array to string list
+vlfloat=np.tolist(villagelist)
+vl = ["%.2f" % x for x in vlfloat]
+
 #Temporary stage: OUTPUT an XYZ text file
 f=open("villages.csv","w")
 for i in range(data.shape[0]-1):
 	try:
-		strng=(str(XCOORDLIST[i])+","+str(YCOORDLIST[i])+","+str(villagelist[i])+"\n")
+		strng=(str(XCOORDLIST[i])+","+str(YCOORDLIST[i])+","+str(vl[i])+"\n")
 		f.write(strng)
 	except:
 		print("Error writing csv file, skipping row")
