@@ -1,0 +1,13 @@
+#!/bin/bash
+
+cat tablefile.csv | head -1 | sed 's/\,/\n/g' | grep WET
+cat tablefile.csv | head -1 | sed 's/\,/\n/g' | grep DRY
+cat tablefile.csv | head -1 | sed 's/\,/\n/g' | grep PROX
+cat tablefile.csv | head -1 | sed 's/\,/\n/g' | grep COMACT
+cat tablefile.csv | head -1 | sed 's/\,/\n/g' | grep GWPOT
+cat tablefile.csv | head -1 | sed 's/\,/\n/g' | grep IRRICAP
+cat tablefile.csv | head -1 | sed 's/\,/\n/g' | grep PDWELL
+cat tablefile.csv | head -1 | sed 's/\,/\n/g' | grep UDWELL
+cat tablefile.csv | head -1 | sed 's/\,/\n/g' | grep PONDS
+
+

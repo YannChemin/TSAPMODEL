@@ -1,0 +1,13 @@
+Projected Coordinate System:	Indian_1960_UTM_Zone_48N
+Projection:			Transverse_Mercator
+False_Easting:			500000.00000000
+False_Northing:			0.00000000
+Central_Meridian:		105.00000000
+Scale_Factor:			0.99960000
+Latitude_Of_Origin:		0.00000000
+Linear Unit:			Meter
+
+Geographic Coordinate System:	GCS_Indian_1960
+Datum:				D_Indian_1960
+Prime Meridian:			Greenwich
+Angular Unit:			Degree
