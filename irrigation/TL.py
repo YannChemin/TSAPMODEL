@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-
+#TODO: MASKING at the beginning to reduce the array and the pairwise comp.
 import os,sys,math
 
 def usage():
