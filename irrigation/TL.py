@@ -29,7 +29,7 @@ def usage():
 	print("\tavailable types are:")
 	print("\tTOPOZONE,INUNDATION,ELEVATION,DRYRAIN,SOIL_LOWP,SOIL_MEDP,SOIL_HIGHP,TAGAP_DRY,TAGAP_WET,CONZ_PROX,CONZ_PEOP,POP,SEXR,KW_UPTOSEC,KW_ILLIT,LF_RICE,LF_VEGE,LF_LSC,LF_WAGED,INDLIVELI,MIGRANTS,PL_P1HH,PL_P2HH,PL_NONPHH,RYLD_WET,RYLD_DRY,RYLD_DANDW,RYLD_RANDI,LA_RICE1HA,LA_CULT1HA,INDAGRIM,A_IRRIC,A_IRRIR,A_IRRIP,A_IRRIW")
 	print("\t")
-	print("\ti.e. TOPOZONE,<=,3 (comma separators are compulsory")
+	print("\ti.e. TOPOZONE,<=,3 (comma separators are compulsory)")
 	print("\ti.e. ELEVATION,>=,5")
 	print("----------------------------------------------------------")
 	os.system("tput setaf 3")
