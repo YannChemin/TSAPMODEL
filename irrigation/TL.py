@@ -58,6 +58,8 @@ XL=np.asarray(data[:,0])
 YL=np.asarray(data[:,1])
 #Create Village output list
 VL=np.zeros(data.shape[0])
+#Create Village MASK list
+MK=np.ones(data.shape[0])
 #Create outranking criteria column list
 #Access MA_INDACT Full Column with data[:,39]
 #Access MA_PROXROAD Full Column with data[:,40]
@@ -152,6 +154,31 @@ if(len(lmib)<5):
 	usage()
 	exit(1)
 
+def mask(b,c,d):
+	#nullify the MK output multiplicator if applies
+	for i in range(data.shape[0]):
+		if(c=="<="):
+			if(data[i,b]<=d):
+				MK[i]=0	
+		elif(c==">="):
+			if(data[i,b]>=d):
+				MK[i]=0	
+		elif(c=="=="):
+			if(data[i,b]==d):
+				MK[i]=0	
+		elif(c=="!="):
+			if(data[i,b]!=d):
+				MK[i]=0	
+		elif(c=="<"):
+			if(data[i,b]<d):
+				MK[i]=0	
+		elif(c==">"):
+			if(data[i,b]>d):
+				MK[i]=0	
+		else:
+			#do nothing
+			print("Not understood %s command, skipping" % b)
+
 if(argc>8):
 	#Create the masking list
 	screnlist=[]
@@ -163,9 +190,12 @@ if(argc>8):
 	for i in range(len(screnlist)):
 		a=screnlist[i].split(',')
 		try:
-			b=scren[a[0]]
+			b=scren[a[0]]#extract col number from dict
+			c=a[1]#Get comparison symbol
+			d=a[2]#Get threshold value
+			mask(b,c,d)
 		except:
-			print("screening name typo, will be ignored")
+			print("screening name typo %s, will be ignored" % a[0])
 
 
 #------------------------
@@ -259,7 +289,7 @@ VL=[(i-VLm)/VLr for i in VL]
 f=open("villages.csv","w")
 for i in range(data.shape[0]-1):
 	try:
-		strng=(str(XL[i])+","+str(YL[i])+","+str(VL[i])+"\n")
+		strng=(str(XL[i])+","+str(YL[i])+","+str(VL[i]*MK[i])+"\n")
 		f.write(strng)
 	except:
 		print("Error writing csv file, skipping row")
@@ -282,14 +312,16 @@ idField = osgeo.ogr.FieldDefn("ID_0", osgeo.ogr.OFTReal)
 lyr.CreateField(idField)
 fidx = 0
 for i in range(len(XL)):
-	ftr = osgeo.ogr.Feature(lyrDef)
-	pt = osgeo.ogr.Geometry(osgeo.ogr.wkbPoint)
-	pt.SetPoint(0, XL[i], YL[i])
-	ftr.SetGeometry(pt)
-	ftr.SetFID(fidx)
-	ftr.SetField(ftr.GetFieldIndex('ID_0'),VL[i])
-	lyr.CreateFeature(ftr)
-	fidx += 1
+	#Apply data MASK
+	if(MK[i]):
+		ftr = osgeo.ogr.Feature(lyrDef)
+		pt = osgeo.ogr.Geometry(osgeo.ogr.wkbPoint)
+		pt.SetPoint(0, XL[i], YL[i])
+		ftr.SetGeometry(pt)
+		ftr.SetFID(fidx)
+		ftr.SetField(ftr.GetFieldIndex('ID_0'),VL[i]*MK[i])
+		lyr.CreateFeature(ftr)
+		fidx += 1
 
 shpData.Destroy()
 
