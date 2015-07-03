@@ -12,8 +12,8 @@ def usage():
 	print("Usage:")
 	print("----------------------------------------------------------")
 	print("This program needs the tablefile.csv in the same directory\n")
-	print("TL.exe crit1 crit2 crit3 crit4 crit5 weigt btter")
-	print("\n[subsetcol1=Value [subs...]]\n")
+	print("TL.exe crit1 crit2 crit3 crit4 crit5 weigt btter scren")
+	print("\n\n")
 	print("It will run with five criteria:") 
 	print("\tcrit1: MA_INDACT, MA_PROXROAD (1 choice)") 
 	print("\tcrit2: TAGAP_DRY, TAGAP_WET (1 choice)") 
@@ -22,6 +22,14 @@ def usage():
 	print("\tcrit5: IRRI_SCH, IRRI_HEAD (1 choice)") 
 	print("\tweigt: 0.0[,0.0[,..]] (comma separated float vals)") 
 	print("\tbtter: m[,m[,..]] (comma separated [m;l], i.e. more or less)") 
+	print("----------------------------------------------------------")
+	print("\tscren is a set of screening columns thresholds")
+	print("\tit tells the program to mask out using thresholds")
+	print("\tavailable types are:")
+	print("\tTOPOZONE,INUNDATION,ELEVATION,DRYRAIN,SOIL_LOWP,SOIL_MEDP,SOIL_HIGHP,TAGAP_DRY,TAGAP_WET,CONZ_PROX,CONZ_PEOP,POP,SEXR,KW_UPTOSEC,KW_ILLIT,LF_RICE,LF_VEGE,LF_LSC,LF_WAGED,INDLIVELI,MIGRANTS,PL_P1HH,PL_P2HH,PL_NONPHH,RYLD_WET,RYLD_DRY,RYLD_DANDW,RYLD_RANDI,LA_RICE1HA,LA_CULT1HA,INDAGRIM,A_IRRIC,A_IRRIR,A_IRRIP,A_IRRIW")
+	print("\t")
+	print("\ti.e. TOPOZONE,<=,3 (comma separators are compulsory")
+	print("\ti.e. ELEVATION,>=,5")
 	print("----------------------------------------------------------")
 	os.system("tput setaf 3")
 	print("Example 1:") 
@@ -142,6 +150,22 @@ if(len(lmib)<5):
 	os.system("tput setaf 9")
 	usage()
 	exit(1)
+
+#Create the masking list
+screnlist=[]
+for i in range(8,argc,1):
+	screnlist.append(argv[i])
+
+scren={'TOPOZONE':4,'INUNDATION':5,'ELEVATION':6,'DRYRAIN':7,'SOIL_LOWP':8,'SOIL_MEDP':9,'SOIL_HIGHP':10,'TAGAP_DRY':11,'TAGAP_WET':12,'CONZ_PROX':13,'CONZ_PEOP':14,'POP':15,'SEXR':16,'KW_UPTOSEC':17,'KW_ILLIT':18,'LF_RICE':19,'LF_VEGE':20,'LF_LSC':21,'LF_WAGED':22,'INDLIVELI':23,'MIGRANTS':24,'PL_P1HH':25,'PL_P2HH':26,'PL_NONPHH':27,'RYLD_WET':28,'RYLD_DRY':29,'RYLD_DANDW':30,'RYLD_RANDI':31,'LA_RICE1HA':32,'LA_CULT1HA':33,'INDAGRIM':34,'A_IRRIC':35,'A_IRRIR':36,'A_IRRIP':37,'A_IRRIW':38}
+
+for i in range(len(screnlist)):
+	a=screnlist[i].split(',')
+	try:
+		b=scren[a[0]]
+	except:
+		print("screening name typo, will be ignored")
+
+
 
 #------------------------
 #END OF PARSING ARGUMENTS
