@@ -22,6 +22,7 @@ def usage():
 	print("\tcrit5: IRRI_SCH, IRRI_HEAD (1 choice)") 
 	print("\tweigt: 0.0[,0.0[,..]] (comma separated float vals)") 
 	print("\tbtter: m[,m[,..]] (comma separated [m;l], i.e. more or less)") 
+	print("\tscren: POP,>,200 [ SEXR,<,0.5 [ ..]] (comma separated info)") 
 	print("----------------------------------------------------------")
 	print("\tscren is a set of screening columns thresholds")
 	print("\tit tells the program to mask out using thresholds")
@@ -151,20 +152,20 @@ if(len(lmib)<5):
 	usage()
 	exit(1)
 
-#Create the masking list
-screnlist=[]
-for i in range(8,argc,1):
-	screnlist.append(argv[i])
+if(argc>8):
+	#Create the masking list
+	screnlist=[]
+	for i in range(8,argc,1):
+		screnlist.append(argv[i])
 
-scren={'TOPOZONE':4,'INUNDATION':5,'ELEVATION':6,'DRYRAIN':7,'SOIL_LOWP':8,'SOIL_MEDP':9,'SOIL_HIGHP':10,'TAGAP_DRY':11,'TAGAP_WET':12,'CONZ_PROX':13,'CONZ_PEOP':14,'POP':15,'SEXR':16,'KW_UPTOSEC':17,'KW_ILLIT':18,'LF_RICE':19,'LF_VEGE':20,'LF_LSC':21,'LF_WAGED':22,'INDLIVELI':23,'MIGRANTS':24,'PL_P1HH':25,'PL_P2HH':26,'PL_NONPHH':27,'RYLD_WET':28,'RYLD_DRY':29,'RYLD_DANDW':30,'RYLD_RANDI':31,'LA_RICE1HA':32,'LA_CULT1HA':33,'INDAGRIM':34,'A_IRRIC':35,'A_IRRIR':36,'A_IRRIP':37,'A_IRRIW':38}
+	scren={'TOPOZONE':4,'INUNDATION':5,'ELEVATION':6,'DRYRAIN':7,'SOIL_LOWP':8,'SOIL_MEDP':9,'SOIL_HIGHP':10,'TAGAP_DRY':11,'TAGAP_WET':12,'CONZ_PROX':13,'CONZ_PEOP':14,'POP':15,'SEXR':16,'KW_UPTOSEC':17,'KW_ILLIT':18,'LF_RICE':19,'LF_VEGE':20,'LF_LSC':21,'LF_WAGED':22,'INDLIVELI':23,'MIGRANTS':24,'PL_P1HH':25,'PL_P2HH':26,'PL_NONPHH':27,'RYLD_WET':28,'RYLD_DRY':29,'RYLD_DANDW':30,'RYLD_RANDI':31,'LA_RICE1HA':32,'LA_CULT1HA':33,'INDAGRIM':34,'A_IRRIC':35,'A_IRRIR':36,'A_IRRIP':37,'A_IRRIW':38}
 
-for i in range(len(screnlist)):
-	a=screnlist[i].split(',')
-	try:
-		b=scren[a[0]]
-	except:
-		print("screening name typo, will be ignored")
-
+	for i in range(len(screnlist)):
+		a=screnlist[i].split(',')
+		try:
+			b=scren[a[0]]
+		except:
+			print("screening name typo, will be ignored")
 
 
 #------------------------
