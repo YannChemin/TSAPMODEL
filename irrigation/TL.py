@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import os,sys
+import os,sys,math
 
 def usage():
 	"""
@@ -45,10 +45,10 @@ data = np.genfromtxt("tablefile.csv", skip_header=1, delimiter=",")
 #Clarify the table access order, TO BE CHANGED IF NEW tablefile.csv
 #Access XCOORD Full Column with data[:,137]
 #Access YCOORD Full Column with data[:,138]
-XCOORDLIST=np.asarray(data[:,0])
-YCOORDLIST=np.asarray(data[:,1])
+XL=np.asarray(data[:,0])
+YL=np.asarray(data[:,1])
 #Create Village output list
-villagelist=np.zeros(data.shape[0])
+VL=np.zeros(data.shape[0])
 #Create outranking criteria column list
 #Access MA_INDACT Full Column with data[:,39]
 #Access MA_PROXROAD Full Column with data[:,40]
@@ -160,7 +160,7 @@ def vpwc(val1,val2,valrange):
 	return((val1-val2)/valrange)
 
 def assignvpwc(vil1rowno,vil2rowno,critcolno,counter):
-	#print(vil1rowno,vil2rowno,critcolno,villagelist.shape[0])
+	#print(vil1rowno,vil2rowno,critcolno,VL.shape[0])
 	#Compute value range for a given criterium
 	#HINT: use stats range for column or row data table
 	datacol=data[:,critcolno]
@@ -202,6 +202,7 @@ def assignvpwc(vil1rowno,vil2rowno,critcolno,counter):
 		else:
 			vil2out=float(value)
 			vil1out=0.0
+	##return vil1out,vil2out
 	return vil1out,vil2out
 
 #set counter for weight and lmib user input forwarding
@@ -210,18 +211,30 @@ for critcolno in critno:
 	print("critcolno=%d" % critcolno)
 	for vil1rowno in range(data.shape[0]):
 		for vil2rowno in range(data.shape[0]):
-			villagelist[vil1rowno],villagelist[vil2rowno]=assignvpwc(vil1rowno,vil2rowno,critcolno,counter)
+			(a,b)=assignvpwc(vil1rowno,vil2rowno,critcolno,counter)
+			if(False == math.isnan(a)):
+				VL[vil1rowno]+=a
+				#print(VL[vil1rowno])
+			if(False == math.isnan(b)):
+				VL[vil2rowno]+=b
+				#print(VL[vil2rowno])
 	counter+=1
 
+#Remove negative values
+VL=VL.clip(0)
+#Rescale 0 to 1
+VLM=np.max(VL)
+VLm=np.min(VL)
+VLr=VLM-VLm
+VL=[(i-VLm)/VLr for i in VL]
 #convert float array to string list
-vlfloat=villagelist.tolist()
-vl = ["%.2f" % x for x in vlfloat]
-
+#vlfloat=VL.tolist()
+#vl = ["%.2f" % x for x in vlfloat]
 #Temporary stage: OUTPUT an XYZ text file
 f=open("villages.csv","w")
 for i in range(data.shape[0]-1):
 	try:
-		strng=(str(XCOORDLIST[i])+","+str(YCOORDLIST[i])+","+str(vl[i])+"\n")
+		strng=(str(XL[i])+","+str(YL[i])+","+str(VL[i])+"\n")
 		f.write(strng)
 	except:
 		print("Error writing csv file, skipping row")
@@ -240,16 +253,16 @@ if shpData is None:
 	sys.exit(1)
 lyr = shpData.CreateLayer('layer1', sr, osgeo.ogr.wkbPoint)
 lyrDef = lyr.GetLayerDefn()
-idField = osgeo.ogr.FieldDefn("ID_0", osgeo.ogr.OFTInteger)
+idField = osgeo.ogr.FieldDefn("ID_0", osgeo.ogr.OFTReal)
 lyr.CreateField(idField)
 fidx = 0
-for i in range(len(XCOORDLIST)):
+for i in range(len(XL)):
 	ftr = osgeo.ogr.Feature(lyrDef)
 	pt = osgeo.ogr.Geometry(osgeo.ogr.wkbPoint)
-	pt.SetPoint(0, XCOORDLIST[i], YCOORDLIST[i])
+	pt.SetPoint(0, XL[i], YL[i])
 	ftr.SetGeometry(pt)
 	ftr.SetFID(fidx)
-	ftr.SetField(ftr.GetFieldIndex('ID_0'),villagelist[i])
+	ftr.SetField(ftr.GetFieldIndex('ID_0'),VL[i])
 	lyr.CreateFeature(ftr)
 	fidx += 1
 
