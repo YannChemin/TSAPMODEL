@@ -27,8 +27,11 @@ def usage():
 	print("\tavailable types are:")
 	print("\tTOPOZONE,INUNDATION,ELEVATION,DRYRAIN,SOIL_LOWP,SOIL_MEDP,SOIL_HIGHP,TAGAP_DRY,TAGAP_WET,CONZ_PROX,CONZ_PEOP,POP,SEXR,KW_UPTOSEC,KW_ILLIT,LF_RICE,LF_VEGE,LF_LSC,LF_WAGED,INDLIVELI,MIGRANTS,PL_P1HH,PL_P2HH,PL_NONPHH,RYLD_WET,RYLD_DRY,RYLD_DANDW,RYLD_RANDI,LA_RICE1HA,LA_CULT1HA,INDAGRIM,A_IRRIC,A_IRRIR,A_IRRIP,A_IRRIW")
 	print("\t")
-	print("\ti.e. TOPOZONE,<=,3 (comma separators are compulsory)")
-	print("\ti.e. ELEVATION,>=,5")
+	print("\ti.e. TOPOZONE,le,3 (comma separators are compulsory)")
+	print("\ti.e. ELEVATION,ge,5")
+	print("\tge: >=\tle: <=")
+	print("\tgt: >\tlt: <")
+	print("\tee: ==\tne: !=")
 	print("----------------------------------------------------------")
 	os.system("tput setaf 3")
 	print("Example 1:") 
@@ -38,7 +41,7 @@ def usage():
 	print("----------------------------------------------------------")
 	os.system("tput setaf 4")
 	print("Example 2:") 
-	print("TL.py 0 0 1 1.0,1.0,1.0 m,l,m TOPOZONE,<=,3") 
+	print("TL.py 0 0 1 1.0,1.0,1.0 m,l,m TOPOZONE,le,3") 
 	print("Means that:") 
 	print("TL.py MA_INDACT TAGAP_DRY SW_PONDS 1.0,1.0,1.0 more,less,more with TOPOZONE less or equal to 3") 
 	print("----------------------------------------------------------")
@@ -151,22 +154,22 @@ if(len(lmib)<2):
 def mask(b,c,d):
 	#nullify the MK output multiplicator if applies
 	for i in range(data.shape[0]):
-		if(c=="<="):
+		if(c=="le"):
 			if(data[i,b]<=d):
 				MK[i]=0	
-		elif(c==">="):
+		elif(c=="ge"):
 			if(data[i,b]>=d):
 				MK[i]=0	
-		elif(c=="=="):
+		elif(c=="ee"):
 			if(data[i,b]==d):
 				MK[i]=0	
-		elif(c=="!="):
+		elif(c=="ne"):
 			if(data[i,b]!=d):
 				MK[i]=0	
-		elif(c=="<"):
+		elif(c=="lt"):
 			if(data[i,b]<d):
 				MK[i]=0	
-		elif(c==">"):
+		elif(c=="gt"):
 			if(data[i,b]>d):
 				MK[i]=0	
 		else:
