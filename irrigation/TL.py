@@ -17,9 +17,7 @@ def usage():
 	print("It will run with five criteria:") 
 	print("\tcrit1: MA_INDACT, MA_PROXROAD (1 choice)") 
 	print("\tcrit2: TAGAP_DRY, TAGAP_WET (1 choice)") 
-	print("\tcrit3: SW_PROXRIV, SW_PONDS (1 choice)") 
-	print("\tcrit4: GW_DWELL, GW_BOREW (1 choice)") 
-	print("\tcrit5: IRRI_SCH, IRRI_HEAD (1 choice)") 
+	print("\tcrit3: SW_PROXRIV, SW_PONDS, GW_DWELL, GW_BOREW, IRRI_SCH, IRRI_HEAD (1 choice: 0-5)") 
 	print("\tweigt: 0.0[,0.0[,..]] (comma separated float vals)") 
 	print("\tbtter: m[,m[,..]] (comma separated [m;l], i.e. more or less)") 
 	print("\tscren: POP,>,200 [ SEXR,<,0.5 [ ..]] (comma separated info)") 
@@ -34,15 +32,15 @@ def usage():
 	print("----------------------------------------------------------")
 	os.system("tput setaf 3")
 	print("Example 1:") 
-	print("TL.py 0 0 0 0 0 1.0,1.0,1.0,1.0,1.0 m,l,l,m,m") 
+	print("TL.py 0 0 0 1.0,1.0,1.0 m,l,l") 
 	print("Means that:") 
-	print("TL.py MA_INDACT TAGAP_DRY SW_PROXRIV GW_DWELL IRRI_SCH 1.0,1.0,1.0 more,less,less") 
+	print("TL.py MA_INDACT TAGAP_DRY SW_PROXRIV 1.0,1.0,1.0 more,less,less") 
 	print("----------------------------------------------------------")
 	os.system("tput setaf 4")
 	print("Example 2:") 
-	print("TL.py 0 0 1 0 0 1.0,1.0,1.0,1.0,1.0 m,l,l,l,l") 
+	print("TL.py 0 0 1 1.0,1.0,1.0 m,l,m TOPOZONE,<=,3") 
 	print("Means that:") 
-	print("TL.py MA_INDACT TAGAP_DRY SW_PONDS GW_DWELL IRRI_SCH 1.0,1.0,1.0,1.0,1.0 more,less,more,less,less") 
+	print("TL.py MA_INDACT TAGAP_DRY SW_PONDS 1.0,1.0,1.0 more,less,more with TOPOZONE less or equal to 3") 
 	print("----------------------------------------------------------")
 	print("\n") 
 	os.system("tput setaf 9")
@@ -69,10 +67,8 @@ MK=np.ones(data.shape[0])
 
 #Access SW_PROXRIV Full Column with data[:,43]
 #Access SW_PONDS Full Column with data[:,44]
-
 #Access GW_DWELL Full Column with data[:,45]
 #Access GW_BOREW Full Column with data[:,46]
-
 #Access IRRI_SCH Full Column with data[:,47]
 #Access IRRI_HEAD Full Column with data[:,48]
 
@@ -97,8 +93,6 @@ if (len(sys.argv) < 6):
 crit1=sys.argv[1]
 crit2=sys.argv[2]
 crit3=sys.argv[3]
-crit4=sys.argv[4]
-crit5=sys.argv[5]
 
 #Create column index of selected criteria 
 critno=[]
@@ -118,17 +112,17 @@ else:
 #Access SW_PONDS Full Column with data[:,44]
 if(int(crit3)==0):
 	critno.append(43)
-else:
+elif(int(crit3)==1):
 	critno.append(44)
 #Access GW_DWELL Full Column with data[:,45]
 #Access GW_BOREW Full Column with data[:,46]
-if(int(crit4)==0):
+elif(int(crit3)==2):
 	critno.append(45)
-else:
+elif(int(crit3)==3):
 	critno.append(46)
 #Access IRRI_SCH Full Column with data[:,47]
 #Access IRRI_HEAD Full Column with data[:,48]
-if(int(crit5)==0):
+elif(int(crit3)==4):
 	critno.append(47)
 else:
 	critno.append(48)
@@ -137,7 +131,7 @@ else:
 #Collect the weight list
 w=[]
 w.extend(sys.argv[6].split(","))
-if(len(w)<5):
+if(len(w)<3):
 	os.system("tput setaf 1")
 	print("\nWeights list has less than 5 criteria members")
 	os.system("tput setaf 9")
@@ -147,7 +141,7 @@ if(len(w)<5):
 #Collect the "more/less is better" list
 lmib=[]
 lmib.extend(sys.argv[7].split(','))
-if(len(lmib)<5):
+if(len(lmib)<3):
 	os.system("tput setaf 1")
 	print("\nList of 'more/less' has less than 5 criteria members")
 	os.system("tput setaf 9")
