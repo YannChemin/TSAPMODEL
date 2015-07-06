@@ -7,14 +7,14 @@ echo "self-test system for TonleSap mapping structure"
 
 python TL.py
 
-#echo "First test: proxroad + wet + proxriv + dwell + irrhead + weigt=1.0,1.0,1.0,1.0,1.0 + better=m,l,l,m,m"
-#echo "TL.py 0 1 0 0 1 1.0,1.0,1.0,1.0,1.0 m,l,l,m,m"
+#echo "First test: proxroad + wet + proxriv + weigt=1.0,1.0,1.0 + better=m,l,l"
+#echo "TL.py 0 1 0 1.0,1.0,1.0 m,l,l"
 
-#python -i TL.py 0 1 0 0 1 1.0,1.0,1.0,1.0,1.0 m,l,l,m,m
+#python -i TL.py 0 1 0 1.0,1.0,1.0 m,l,l
 
-echo "Second test: proxroad + wet + proxriv + dwell + irrhead + weigt=1.0,1.0,1.0,1.0,1.0 + better=m,l,l,m,m + scren=TOPOZONE<=2"
-echo "TL.py 0 1 0 0 1 1.0,1.0,1.0,1.0,1.0 m,l,l,m,m TOPOZONE,<=,2"
+echo "Second test: proxroad + wet + proxriv + weigt=1.0,1.0,1.0 + better=m,l,l + scren=TOPOZONE<=2"
+echo "TL.py 0 1 0 1.0,1.0,1.0 m,l,l TOPOZONE,<=,2"
 
-python -i TL.py 0 1 0 0 1 1.0,1.0,1.0,1.0,1.0 m,l,l,m,m TOPOZONE,>=,2
+python -i TL.py 0 1 0 1.0,1.0,1.0 m,l,l TOPOZONE,>=,2
 
 
