@@ -161,14 +161,10 @@ if(len(sys.argv)>6):
 
 	for i in range(len(screnlist)):
 		a=screnlist[i].split(',')
-		print(a)
 		try:
 			b=int(scren[a[0]])#extract col number from dict
-			print(b)
 			c=str(a[1])#Get comparison symbol
-			print(c)
 			d=int(a[2])#Get threshold value
-			print(d)
 			#nullify the MK output multiplicator if applies
 			for i in range(data.shape[0]):
 				if(c=='le'):
