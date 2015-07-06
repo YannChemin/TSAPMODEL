@@ -31,7 +31,7 @@ def usage():
 	print("\ti.e. ELEVATION,ge,5")
 	print("\tge: >=\tle: <=")
 	print("\tgt: >\tlt: <")
-	print("\tee: ==\tne: !=")
+	print("\teq: ==\tne: !=")
 	print("----------------------------------------------------------")
 	os.system("tput setaf 3")
 	print("Example 1:") 
@@ -151,32 +151,7 @@ if(len(lmib)<2):
 	usage()
 	exit(1)
 
-def mask(b,c,d):
-	#nullify the MK output multiplicator if applies
-	for i in range(data.shape[0]):
-		if(c=="le"):
-			if(data[i,b]<=d):
-				MK[i]=0	
-		elif(c=="ge"):
-			if(data[i,b]>=d):
-				MK[i]=0	
-		elif(c=="ee"):
-			if(data[i,b]==d):
-				MK[i]=0	
-		elif(c=="ne"):
-			if(data[i,b]!=d):
-				MK[i]=0	
-		elif(c=="lt"):
-			if(data[i,b]<d):
-				MK[i]=0	
-		elif(c=="gt"):
-			if(data[i,b]>d):
-				MK[i]=0	
-		else:
-			#do nothing
-			print("Not understood %s command, skipping" % b)
-
-if(len(sys.argv)>8):
+if(len(sys.argv)>6):
 	#Create the masking list
 	screnlist=[]
 	for i in range(6,len(sys.argv),1):
@@ -186,11 +161,37 @@ if(len(sys.argv)>8):
 
 	for i in range(len(screnlist)):
 		a=screnlist[i].split(',')
+		print(a)
 		try:
-			b=scren[a[0]]#extract col number from dict
-			c=a[1]#Get comparison symbol
-			d=a[2]#Get threshold value
-			mask(b,c,d)
+			b=int(scren[a[0]])#extract col number from dict
+			print(b)
+			c=str(a[1])#Get comparison symbol
+			print(c)
+			d=int(a[2])#Get threshold value
+			print(d)
+			#nullify the MK output multiplicator if applies
+			for i in range(data.shape[0]):
+				if(c=='le'):
+					if(data[i,b]<=d):
+						MK[i]=0	
+				elif(c=='ge'):
+					if(data[i,b]>=d):
+						MK[i]=0	
+				elif(c=='eq'):
+					if(data[i,b]==d):
+						MK[i]=0	
+				elif(c=='ne'):
+					if(data[i,b]!=d):
+						MK[i]=0	
+				elif(c=='lt'):
+					if(data[i,b]<d):
+						MK[i]=0	
+				elif(c=='gt'):
+					if(data[i,b]>d):
+						MK[i]=0	
+				else:
+					#do nothing
+					print("Not understood %s, skipping" % b)
 		except:
 			print("screening name typo %s, will be ignored" % a[0])
 
@@ -286,8 +287,9 @@ VL=[(i-VLm)/VLr for i in VL]
 f=open("villages.csv","w")
 for i in range(data.shape[0]-1):
 	try:
-		strng=(str(XL[i])+","+str(YL[i])+","+str(VL[i]*MK[i])+"\n")
-		f.write(strng)
+		if(MK[i]!=0):
+			strng=(str(XL[i])+","+str(YL[i])+","+str(VL[i])+"\n")
+			f.write(strng)
 	except:
 		print("Error writing csv file, skipping row")
 f.close()
@@ -310,13 +312,13 @@ lyr.CreateField(idField)
 fidx = 0
 for i in range(len(XL)):
 	#Apply data MASK
-	if(MK[i]):
+	if(MK[i]!=0):
 		ftr = osgeo.ogr.Feature(lyrDef)
 		pt = osgeo.ogr.Geometry(osgeo.ogr.wkbPoint)
 		pt.SetPoint(0, XL[i], YL[i])
 		ftr.SetGeometry(pt)
 		ftr.SetFID(fidx)
-		ftr.SetField(ftr.GetFieldIndex('ID_0'),VL[i]*MK[i])
+		ftr.SetField(ftr.GetFieldIndex('ID_0'),VL[i])
 		lyr.CreateFeature(ftr)
 		fidx += 1
 

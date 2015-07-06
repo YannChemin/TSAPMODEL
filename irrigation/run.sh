@@ -12,9 +12,14 @@ python TL.py
 
 #python -i TL.py 0 1 0 1.0,1.0,1.0 m,l,l
 
-echo "Second test: proxroad + wet + proxriv + weigt=1.0,1.0,1.0 + better=m,l,l + scren=TOPOZONE<=2"
-echo "TL.py 0 1 0 1.0,1.0,1.0 m,l,l TOPOZONE,ge,2"
+#echo "Second test: proxroad + wet + proxriv + weigt=1.0,1.0,1.0 + better=m,l,l + scren=TOPOZONE<=2"
+#echo "TL.py 0 1 0 1.0,1.0,1.0 m,l,l TOPOZONE,le,2"
 
-python -i TL.py 0 1 0 1.0,1.0,1.0 m,l,l TOPOZONE,ge,2
+#python -i TL.py 0 1 0 1.0,1.0,1.0 m,l,l TOPOZONE,le,2
+
+echo "Third test: proxroad + wet + proxriv + weigt=1.0,1.0,1.0 + better=m,l,l + scren=TOPOZONE<2,POP>800"
+echo "TL.py 0 1 0 1.0,1.0,1.0 m,l,l TOPOZONE,lt,2 POP,gt,800"
+
+python -i TL.py 0 1 0 1.0,1.0,1.0 m,l,l TOPOZONE,lt,2 POP,gt,800
 
 
