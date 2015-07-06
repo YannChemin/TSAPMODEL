@@ -130,8 +130,8 @@ else:
 
 #Collect the weight list
 w=[]
-w.extend(sys.argv[6].split(","))
-if(len(w)<3):
+w.extend(sys.argv[4].split(","))
+if(len(w)<2):
 	os.system("tput setaf 1")
 	print("\nWeights list has less than 5 criteria members")
 	os.system("tput setaf 9")
@@ -140,8 +140,8 @@ if(len(w)<3):
 
 #Collect the "more/less is better" list
 lmib=[]
-lmib.extend(sys.argv[7].split(','))
-if(len(lmib)<3):
+lmib.extend(sys.argv[5].split(','))
+if(len(lmib)<2):
 	os.system("tput setaf 1")
 	print("\nList of 'more/less' has less than 5 criteria members")
 	os.system("tput setaf 9")
@@ -176,7 +176,7 @@ def mask(b,c,d):
 if(len(sys.argv)>8):
 	#Create the masking list
 	screnlist=[]
-	for i in range(8,len(sys.argv),1):
+	for i in range(6,len(sys.argv),1):
 		screnlist.append(sys.argv[i])
 
 	scren={'TOPOZONE':4,'INUNDATION':5,'ELEVATION':6,'DRYRAIN':7,'SOIL_LOWP':8,'SOIL_MEDP':9,'SOIL_HIGHP':10,'TAGAP_DRY':11,'TAGAP_WET':12,'CONZ_PROX':13,'CONZ_PEOP':14,'POP':15,'SEXR':16,'KW_UPTOSEC':17,'KW_ILLIT':18,'LF_RICE':19,'LF_VEGE':20,'LF_LSC':21,'LF_WAGED':22,'INDLIVELI':23,'MIGRANTS':24,'PL_P1HH':25,'PL_P2HH':26,'PL_NONPHH':27,'RYLD_WET':28,'RYLD_DRY':29,'RYLD_DANDW':30,'RYLD_RANDI':31,'LA_RICE1HA':32,'LA_CULT1HA':33,'INDAGRIM':34,'A_IRRIC':35,'A_IRRIR':36,'A_IRRIP':37,'A_IRRIW':38}
