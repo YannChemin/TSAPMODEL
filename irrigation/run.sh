@@ -34,7 +34,7 @@ python TL.py
 #Criteria 3: SW_PROXRIV (40)[43] – lower the better
 
 echo "Scenario 1"
-python -i TL.py 1 0 0 1.0,1.0,1.0 l,m,l INDLIVELI,lt,1.02 PL_P1HH,lt,144.6
+python -i TL.py 1 0 0 1.0,1.0,1.0 l,m,l LA_RICE1HA,gt,2.5 LA_RICE1HA,le,3.0 INDLIVELI,lt,1.02 PL_P1HH,lt,144.6
  
 
 #Scenario 2 (same as above except for the last step in outranking)
