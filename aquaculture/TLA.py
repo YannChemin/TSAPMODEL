@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-#TODO: MASKING at the beginning to reduce the array and the pairwise comp.
 import os,sys,math
 
 def usage():
@@ -12,12 +11,11 @@ def usage():
 	print("Usage:")
 	print("----------------------------------------------------------")
 	print("This program needs the tablefile.csv in the same directory\n")
-	print("TL.exe crit1 crit2 crit3 crit4 crit5 weigt btter scren")
+	print("TLA.exe crit1 crit2 weigt btter scren")
 	print("\n\n")
 	print("It will run with five criteria:") 
 	print("\tcrit1: MA_INDACT, MA_PROXROAD (1 choice)") 
-	print("\tcrit2: TAGAP_DRY, TAGAP_WET (1 choice)") 
-	print("\tcrit3: SW_PROXRIV, SW_PONDS, GW_DWELL, GW_BOREW, IRRI_SCH, IRRI_HEAD (1 choice: 0-5)") 
+	print("\tcrit2: SW_PROXRIV, SW_PONDS, FISHPRO (1 choice)") 
 	print("\tweigt: 0.0[,0.0[,..]] (comma separated float vals)") 
 	print("\tbtter: m[,m[,..]] (comma separated [m;l], i.e. more or less)") 
 	print("\tscren: POP,>,200 [ SEXR,<,0.5 [ ..]] (comma separated info)") 
@@ -36,15 +34,15 @@ def usage():
 	print("----------------------------------------------------------")
 	os.system("tput setaf 3")
 	print("Example 1:") 
-	print("TL.py 0 0 0 1.0,1.0,1.0 m,l,l") 
+	print("TL.py 0 0 1.0,1.0 m,l") 
 	print("Means that:") 
-	print("TL.py MA_INDACT TAGAP_DRY SW_PROXRIV 1.0,1.0,1.0 more,less,less") 
+	print("TL.py MA_INDACT SW_PROXRIV 1.0,1.0 more,less") 
 	print("----------------------------------------------------------")
 	os.system("tput setaf 4")
 	print("Example 2:") 
-	print("TL.py 0 0 1 1.0,1.0,1.0 m,l,m TOPOZONE,le,3") 
+	print("TL.py 0 1 1.0,1.0 m,l TOPOZONE,le,3") 
 	print("Means that:") 
-	print("TL.py MA_INDACT TAGAP_DRY SW_PONDS 1.0,1.0,1.0 more,less,more with TOPOZONE less or equal to 3") 
+	print("TL.py MA_INDACT SW_PONDS 1.0,1.0 more,less with TOPOZONE less or equal to 3") 
 	print("----------------------------------------------------------")
 	print("\n") 
 	os.system("tput setaf 9")
@@ -66,18 +64,12 @@ MK=np.ones(data.shape[0])
 #Access MA_INDACT Full Column with data[:,39]
 #Access MA_PROXROAD Full Column with data[:,40]
 
-#Access TAGAP_DRY Full Column with data[:,41]
-#Access TAGAP_WET Full Column with data[:,42]
-
-#Access SW_PROXRIV Full Column with data[:,43]
-#Access SW_PONDS Full Column with data[:,44]
-#Access GW_DWELL Full Column with data[:,45]
-#Access GW_BOREW Full Column with data[:,46]
-#Access IRRI_SCH Full Column with data[:,47]
-#Access IRRI_HEAD Full Column with data[:,48]
+#Access SW_PROXRIV Full Column with data[:,41]
+#Access SW_PONDS Full Column with data[:,42]
+#Access FISHPRO Full Column with data[:,43]
 
 #set critcolno with any of the critno[index]
-mastercritno=[39,40,41,42,43,44,45,46,47,48]
+mastercritno=[39,40,41,42,43]
 
 #------------------------
 #PARSING ARGUMENTS
@@ -86,7 +78,7 @@ mastercritno=[39,40,41,42,43,44,45,46,47,48]
 #Minimum number of input variables
 #1 csv weights list
 #1 csv better list (more is better="m")
-if (len(sys.argv) < 6):
+if (len(sys.argv) < 5):
 	os.system("tput setaf 1")
 	print("\ninsufficient amount of input variables")
 	os.system("tput setaf 9")
@@ -96,67 +88,51 @@ if (len(sys.argv) < 6):
 #Collect the user's choices for the criteria
 crit1=sys.argv[1]
 crit2=sys.argv[2]
-crit3=sys.argv[3]
 
 #Create column index of selected criteria 
 critno=[]
 #Access MA_INDACT Full Column with data[:,39]
 #Access MA_PROXROAD Full Column with data[:,40]
 if(int(crit1)==0):
-	critno.append(39)
+	critno.append(mastercritno[0])
 else:
-	critno.append(40)
-#Access TAGAP_DRY Full Column with data[:,41]
-#Access TAGAP_WET Full Column with data[:,42]
-if(int(crit2)==0):
-	critno.append(41)
-else:
-	critno.append(42)
+	critno.append(mastercritno[1])
 #Access SW_PROXRIV Full Column with data[:,43]
 #Access SW_PONDS Full Column with data[:,44]
-if(int(crit3)==0):
-	critno.append(43)
-elif(int(crit3)==1):
-	critno.append(44)
-#Access GW_DWELL Full Column with data[:,45]
-#Access GW_BOREW Full Column with data[:,46]
-elif(int(crit3)==2):
-	critno.append(45)
-elif(int(crit3)==3):
-	critno.append(46)
-#Access IRRI_SCH Full Column with data[:,47]
-#Access IRRI_HEAD Full Column with data[:,48]
-elif(int(crit3)==4):
-	critno.append(47)
+#Access FISHPRO Full Column with data[:,44]
+if(int(crit2)==0):
+	critno.append(mastercritno[2])
+elif(int(crit2)==1):
+	critno.append(mastercritno[3])
 else:
-	critno.append(48)
+	critno.append(mastercritno[4])
 
 
 #Collect the weight list
 w=[]
-w.extend(sys.argv[4].split(","))
-if(len(w)<2):
+w.extend(sys.argv[3].split(","))
+if(len(w)<3):
 	os.system("tput setaf 1")
-	print("\nWeights list has less than 5 criteria members")
+	print("\nWeights list has less than 3 criteria members")
 	os.system("tput setaf 9")
 	usage()
 	exit(1)
 
 #Collect the "more/less is better" list
 lmib=[]
-lmib.extend(sys.argv[5].split(','))
-if(len(lmib)<2):
+lmib.extend(sys.argv[4].split(','))
+if(len(lmib)<3):
 	os.system("tput setaf 1")
-	print("\nList of 'more/less' has less than 5 criteria members")
+	print("\nList of 'more/less' has less than 3 criteria members")
 	os.system("tput setaf 9")
 	usage()
 	exit(1)
 
-if(len(sys.argv)>6):
+if(len(sys.argv)>5):
 	#Create the masking list
 	screnlist=[]
-	for i in range(6,len(sys.argv),1):
-		if(i<=10):
+	for i in range(5,len(sys.argv),1):
+		if(i<=9):
 			screnlist.append(sys.argv[i])
 
 	scren={'TOPOZONE':4,'INUNDATION':5,'ELEVATION':6,'DRYRAIN':7,'SOIL_LOWP':8,'SOIL_MEDP':9,'SOIL_HIGHP':10,'TAGAP_DRY':11,'TAGAP_WET':12,'CONZ_PROX':13,'CONZ_PEOP':14,'POP':15,'SEXR':16,'KW_UPTOSEC':17,'KW_ILLIT':18,'LF_RICE':19,'LF_VEGE':20,'LF_LSC':21,'LF_WAGED':22,'INDLIVELI':23,'MIGRANTS':24,'PL_P1HH':25,'PL_P2HH':26,'PL_NONPHH':27,'RYLD_WET':28,'RYLD_DRY':29,'RYLD_DANDW':30,'RYLD_RANDI':31,'LA_RICE1HA':32,'LA_CULT1HA':33,'INDAGRIM':34,'A_IRRIC':35,'A_IRRIR':36,'A_IRRIP':37,'A_IRRIW':38}
