@@ -24,6 +24,7 @@ def usage():
 	print("----------------------------------------------------------")
 	print("\tscren is a set of screening columns thresholds")
 	print("\tit tells the program to mask out using thresholds")
+	print("\tOnly 5 screening criteria will be read, no warning if more")
 	print("\tavailable types are:")
 	print("\tTOPOZONE,INUNDATION,ELEVATION,DRYRAIN,SOIL_LOWP,SOIL_MEDP,SOIL_HIGHP,TAGAP_DRY,TAGAP_WET,CONZ_PROX,CONZ_PEOP,POP,SEXR,KW_UPTOSEC,KW_ILLIT,LF_RICE,LF_VEGE,LF_LSC,LF_WAGED,INDLIVELI,MIGRANTS,PL_P1HH,PL_P2HH,PL_NONPHH,RYLD_WET,RYLD_DRY,RYLD_DANDW,RYLD_RANDI,LA_RICE1HA,LA_CULT1HA,INDAGRIM,A_IRRIC,A_IRRIR,A_IRRIP,A_IRRIW")
 	print("\t")
@@ -155,7 +156,8 @@ if(len(sys.argv)>6):
 	#Create the masking list
 	screnlist=[]
 	for i in range(6,len(sys.argv),1):
-		screnlist.append(sys.argv[i])
+		if(i<=10):
+			screnlist.append(sys.argv[i])
 
 	scren={'TOPOZONE':4,'INUNDATION':5,'ELEVATION':6,'DRYRAIN':7,'SOIL_LOWP':8,'SOIL_MEDP':9,'SOIL_HIGHP':10,'TAGAP_DRY':11,'TAGAP_WET':12,'CONZ_PROX':13,'CONZ_PEOP':14,'POP':15,'SEXR':16,'KW_UPTOSEC':17,'KW_ILLIT':18,'LF_RICE':19,'LF_VEGE':20,'LF_LSC':21,'LF_WAGED':22,'INDLIVELI':23,'MIGRANTS':24,'PL_P1HH':25,'PL_P2HH':26,'PL_NONPHH':27,'RYLD_WET':28,'RYLD_DRY':29,'RYLD_DANDW':30,'RYLD_RANDI':31,'LA_RICE1HA':32,'LA_CULT1HA':33,'INDAGRIM':34,'A_IRRIC':35,'A_IRRIR':36,'A_IRRIP':37,'A_IRRIW':38}
 
