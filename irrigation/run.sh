@@ -25,7 +25,7 @@ python TL.py
 
 #Scenario 1
 #Screening:
-#Criteria 1: LA_RICE1HA (26)[29] - 2.5 < LA_RICE1HA =<3.0
+#Criteria 1: RYLD_DRY (26)[29] - RYLD_DRY =< 2.5
 #Criteria 2: INDLIVELI (20)[23] <1.02
 #Criteria 3: PL_P1HH (22)[25] <144.6
 #Outranking:
@@ -34,12 +34,12 @@ python TL.py
 #Criteria 3: SW_PROXRIV (40)[43] – lower the better
 
 echo "Scenario 1"
-python -i TL.py 1 0 0 1.0,1.0,1.0 l,m,l LA_RICE1HA,gt,2.5 LA_RICE1HA,le,3.0 INDLIVELI,lt,1.02 PL_P1HH,lt,144.6
+python -i TL.py 1 0 0 1.0,1.0,1.0 l,m,l RYLD_DRY,le,2.5 INDLIVELI,lt,1.02 PL_P1HH,lt,144.6
  
 
 #Scenario 2 (same as above except for the last step in outranking)
 #Screening:
-#Criteria 1: LA_RICE1HA (26) - 2.5 < LA_RICE1HA =<3.0
+#Criteria 1: RYLD_DRY (26)[29] - RYLD_DRY =< 2.5
 #Criteria 2: INDLIVELI (20) <1.02
 #Criteria 3: PL_P1HH (22) <144.6
 #Outranking:
@@ -53,7 +53,7 @@ python -i TL.py 1 0 0 1.0,1.0,1.0 l,m,l LA_RICE1HA,gt,2.5 LA_RICE1HA,le,3.0 INDL
 
 #Scenario 3 (same as above except for the last step in outranking)
 #Screening:
-#Criteria 1: LA_RICE1HA (26) - 2.5 < LA_RICE1HA =<3.0
+#Criteria 1: RYLD_DRY (26)[29] - RYLD_DRY =< 2.5
 #Criteria 2: INDLIVELI (20) <1.02
 #Criteria 3: PL_P1HH (22) <144.6
 #Outranking:
@@ -67,7 +67,7 @@ python -i TL.py 1 0 0 1.0,1.0,1.0 l,m,l LA_RICE1HA,gt,2.5 LA_RICE1HA,le,3.0 INDL
  
 #Scenario 4 (same as above except for the last step in outranking)
 #Screening:
-#Criteria 1: LA_RICE1HA (26) - 2.5 < LA_RICE1HA =<3.0
+#Criteria 1: RYLD_DRY (26)[29] - RYLD_DRY =< 2.5
 #Criteria 2: INDLIVELI (20) <1.02
 #Criteria 3: PL_P1HH (22) <144.6
 #Criteria 4: INUNDATION (2) < 1.89
