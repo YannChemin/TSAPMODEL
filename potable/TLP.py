@@ -60,22 +60,14 @@ VL=np.zeros(data.shape[0])
 #Create Village MASK list
 MK=np.ones(data.shape[0])
 #Create outranking criteria column list
-#Access WA_AWAY Full Column with data[:,39]
-#Access MA_PROXROAD Full Column with data[:,40]
-
-#Access TAGAP_DRY Full Column with data[:,41]
-#Access TAGAP_WET Full Column with data[:,42]
-
-#Access SW_PROXRIV Full Column with data[:,43]
-#Access SW_PONDS Full Column with data[:,44]
-#Access GW_DWELL Full Column with data[:,45]
-#Access GW_BOREW Full Column with data[:,46]
-#Access IRRI_SCH Full Column with data[:,47]
-#Access IRRI_HEAD Full Column with data[:,48]
+#Access WA_AWAY Full Column with data[:,36]
+#Access WS_UNSAFE Full Column with data[:,37]
+#Access WS_UNTREAT Full Column with data[:,38]
 
 #set critcolno with any of the critno[index]
-mastercritno=[39,40,41,42,43,44,45,46,47,48]
-
+mastercritno=[36,37,38]
+#to keep functions identical across
+w=[1.0]
 #------------------------
 #PARSING ARGUMENTS
 #------------------------
@@ -83,7 +75,7 @@ mastercritno=[39,40,41,42,43,44,45,46,47,48]
 #Minimum number of input variables
 #1 csv weights list
 #1 csv better list (more is better="m")
-if (len(sys.argv) < 6):
+if (len(sys.argv) < 3):
 	os.system("tput setaf 1")
 	print("\ninsufficient amount of input variables")
 	os.system("tput setaf 9")
@@ -92,68 +84,34 @@ if (len(sys.argv) < 6):
 
 #Collect the user's choices for the criteria
 crit1=sys.argv[1]
-crit2=sys.argv[2]
-crit3=sys.argv[3]
 
 #Create column index of selected criteria 
 critno=[]
-#Access MA_INDACT Full Column with data[:,39]
-#Access MA_PROXROAD Full Column with data[:,40]
+#Access WA_AWAY Full Column with data[:,36]
+#Access WS_UNSAFE Full Column with data[:,37]
+#Access WS_UNTREAT Full Column with data[:,38]
 if(int(crit1)==0):
-	critno.append(39)
+	critno.append(mastercritno[0])
+elif(int(crit1)==1):
+	critno.append(mastercritno[1])
 else:
-	critno.append(40)
-#Access TAGAP_DRY Full Column with data[:,41]
-#Access TAGAP_WET Full Column with data[:,42]
-if(int(crit2)==0):
-	critno.append(41)
-else:
-	critno.append(42)
-#Access SW_PROXRIV Full Column with data[:,43]
-#Access SW_PONDS Full Column with data[:,44]
-if(int(crit3)==0):
-	critno.append(43)
-elif(int(crit3)==1):
-	critno.append(44)
-#Access GW_DWELL Full Column with data[:,45]
-#Access GW_BOREW Full Column with data[:,46]
-elif(int(crit3)==2):
-	critno.append(45)
-elif(int(crit3)==3):
-	critno.append(46)
-#Access IRRI_SCH Full Column with data[:,47]
-#Access IRRI_HEAD Full Column with data[:,48]
-elif(int(crit3)==4):
-	critno.append(47)
-else:
-	critno.append(48)
-
-
-#Collect the weight list
-w=[]
-w.extend(sys.argv[4].split(","))
-if(len(w)<2):
-	os.system("tput setaf 1")
-	print("\nWeights list has less than 5 criteria members")
-	os.system("tput setaf 9")
-	usage()
-	exit(1)
+	critno.append(mastercritno[2])
 
 #Collect the "more/less is better" list
 lmib=[]
-lmib.extend(sys.argv[5].split(','))
-if(len(lmib)<2):
+lmib.append(sys.argv[2])
+if(len(lmib)<1):
 	os.system("tput setaf 1")
-	print("\nList of 'more/less' has less than 5 criteria members")
+	print("\nList of 'more/less' has less than 1 criteria member")
 	os.system("tput setaf 9")
 	usage()
 	exit(1)
 
-if(len(sys.argv)>6):
+if(len(sys.argv)>3):
 	#Create the masking list
 	screnlist=[]
-	for i in range(6,len(sys.argv),1):
-		if(i<=10):
+	for i in range(3,len(sys.argv),1):
+		if(i<=8):
 			screnlist.append(sys.argv[i])
 
 	scren={'TOPOZONE':4,'INUNDATION':5,'ELEVATION':6,'DRYRAIN':7,'SOIL_LOWP':8,'SOIL_MEDP':9,'SOIL_HIGHP':10,'TAGAP_DRY':11,'TAGAP_WET':12,'CONZ_PROX':13,'CONZ_PEOP':14,'POP':15,'SEXR':16,'KW_UPTOSEC':17,'KW_ILLIT':18,'LF_RICE':19,'LF_VEGE':20,'LF_LSC':21,'LF_WAGED':22,'INDLIVELI':23,'MIGRANTS':24,'PL_P1HH':25,'PL_P2HH':26,'PL_NONPHH':27,'RYLD_WET':28,'RYLD_DRY':29,'RYLD_DANDW':30,'RYLD_RANDI':31,'LA_RICE1HA':32,'LA_CULT1HA':33,'INDAGRIM':34,'A_IRRIC':35,'A_IRRIR':36,'A_IRRIP':37,'A_IRRIW':38}
