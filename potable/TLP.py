@@ -12,14 +12,11 @@ def usage():
 	print("Usage:")
 	print("----------------------------------------------------------")
 	print("This program needs the tablefile.csv in the same directory\n")
-	print("TL.exe crit1 crit2 crit3 crit4 crit5 weigt btter scren")
+	print("TLP.exe crit1 btter scren")
 	print("\n\n")
 	print("It will run with five criteria:") 
-	print("\tcrit1: MA_INDACT, MA_PROXROAD (1 choice)") 
-	print("\tcrit2: TAGAP_DRY, TAGAP_WET (1 choice)") 
-	print("\tcrit3: SW_PROXRIV, SW_PONDS, GW_DWELL, GW_BOREW, IRRI_SCH, IRRI_HEAD (1 choice: 0-5)") 
-	print("\tweigt: 0.0[,0.0[,..]] (comma separated float vals)") 
-	print("\tbtter: m[,m[,..]] (comma separated [m;l], i.e. more or less)") 
+	print("\tcrit1: WA_AWAY, WS_UNSAFE, WT_UNTREAT (1 choice)") 
+	print("\tbtter: m (more) or l (less)") 
 	print("\tscren: POP,>,200 [ SEXR,<,0.5 [ ..]] (comma separated info)") 
 	print("----------------------------------------------------------")
 	print("\tscren is a set of screening columns thresholds")
@@ -36,15 +33,15 @@ def usage():
 	print("----------------------------------------------------------")
 	os.system("tput setaf 3")
 	print("Example 1:") 
-	print("TL.py 0 0 0 1.0,1.0,1.0 m,l,l") 
+	print("TL.py 0 m") 
 	print("Means that:") 
-	print("TL.py MA_INDACT TAGAP_DRY SW_PROXRIV 1.0,1.0,1.0 more,less,less") 
+	print("TL.py WA_AWAY more") 
 	print("----------------------------------------------------------")
 	os.system("tput setaf 4")
 	print("Example 2:") 
-	print("TL.py 0 0 1 1.0,1.0,1.0 m,l,m TOPOZONE,le,3") 
+	print("TL.py 0 m TOPOZONE,le,3") 
 	print("Means that:") 
-	print("TL.py MA_INDACT TAGAP_DRY SW_PONDS 1.0,1.0,1.0 more,less,more with TOPOZONE less or equal to 3") 
+	print("TL.py WA_AWAY more with TOPOZONE less or equal to 3") 
 	print("----------------------------------------------------------")
 	print("\n") 
 	os.system("tput setaf 9")
@@ -63,7 +60,7 @@ VL=np.zeros(data.shape[0])
 #Create Village MASK list
 MK=np.ones(data.shape[0])
 #Create outranking criteria column list
-#Access MA_INDACT Full Column with data[:,39]
+#Access WA_AWAY Full Column with data[:,39]
 #Access MA_PROXROAD Full Column with data[:,40]
 
 #Access TAGAP_DRY Full Column with data[:,41]
