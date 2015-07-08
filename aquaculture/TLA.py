@@ -61,15 +61,15 @@ VL=np.zeros(data.shape[0])
 #Create Village MASK list
 MK=np.ones(data.shape[0])
 #Create outranking criteria column list
-#Access MA_INDACT Full Column with data[:,39]
-#Access MA_PROXROAD Full Column with data[:,40]
+#Access MA_INDACT Full Column with data[:,34]
+#Access MA_PROXROAD Full Column with data[:,35]
 
-#Access SW_PROXRIV Full Column with data[:,41]
-#Access SW_PONDS Full Column with data[:,42]
-#Access FISHPRO Full Column with data[:,43]
+#Access SW_PROXRIV Full Column with data[:,36]
+#Access SW_PONDS Full Column with data[:,37]
+#Access FISHPRO Full Column with data[:,38]
 
 #set critcolno with any of the critno[index]
-mastercritno=[39,40,41,42,43]
+mastercritno=[34,35,36,37,38]
 
 #------------------------
 #PARSING ARGUMENTS
@@ -91,15 +91,15 @@ crit2=sys.argv[2]
 
 #Create column index of selected criteria 
 critno=[]
-#Access MA_INDACT Full Column with data[:,39]
-#Access MA_PROXROAD Full Column with data[:,40]
+#Access MA_INDACT Full Column with data[:,34]
+#Access MA_PROXROAD Full Column with data[:,35]
 if(int(crit1)==0):
 	critno.append(mastercritno[0])
 else:
 	critno.append(mastercritno[1])
-#Access SW_PROXRIV Full Column with data[:,43]
-#Access SW_PONDS Full Column with data[:,44]
-#Access FISHPRO Full Column with data[:,44]
+#Access SW_PROXRIV Full Column with data[:,36]
+#Access SW_PONDS Full Column with data[:,37]
+#Access FISHPRO Full Column with data[:,38]
 if(int(crit2)==0):
 	critno.append(mastercritno[2])
 elif(int(crit2)==1):
@@ -111,9 +111,9 @@ else:
 #Collect the weight list
 w=[]
 w.extend(sys.argv[3].split(","))
-if(len(w)<3):
+if(len(w)<2):
 	os.system("tput setaf 1")
-	print("\nWeights list has less than 3 criteria members")
+	print("\nWeights list has less than 2 criteria members")
 	os.system("tput setaf 9")
 	usage()
 	exit(1)
@@ -121,9 +121,9 @@ if(len(w)<3):
 #Collect the "more/less is better" list
 lmib=[]
 lmib.extend(sys.argv[4].split(','))
-if(len(lmib)<3):
+if(len(lmib)<2):
 	os.system("tput setaf 1")
-	print("\nList of 'more/less' has less than 3 criteria members")
+	print("\nList of 'more/less' has less than 2 criteria members")
 	os.system("tput setaf 9")
 	usage()
 	exit(1)
@@ -135,7 +135,7 @@ if(len(sys.argv)>5):
 		if(i<=9):
 			screnlist.append(sys.argv[i])
 
-	scren={'TOPOZONE':4,'INUNDATION':5,'ELEVATION':6,'DRYRAIN':7,'SOIL_LOWP':8,'SOIL_MEDP':9,'SOIL_HIGHP':10,'TAGAP_DRY':11,'TAGAP_WET':12,'CONZ_PROX':13,'CONZ_PEOP':14,'POP':15,'SEXR':16,'KW_UPTOSEC':17,'KW_ILLIT':18,'LF_RICE':19,'LF_VEGE':20,'LF_LSC':21,'LF_WAGED':22,'INDLIVELI':23,'MIGRANTS':24,'PL_P1HH':25,'PL_P2HH':26,'PL_NONPHH':27,'RYLD_WET':28,'RYLD_DRY':29,'RYLD_DANDW':30,'RYLD_RANDI':31,'LA_RICE1HA':32,'LA_CULT1HA':33,'INDAGRIM':34,'A_IRRIC':35,'A_IRRIR':36,'A_IRRIP':37,'A_IRRIW':38}
+	scren={'TOPOZONE':4,'INUNDATION':5,'ELEVATION':6,'DRYRAINFALL':7,'SOIL_LOWP':8,'SOIL_MEDP':9,'SOIL_HIGHP':10,'TAGAP_DRY':11,'TAGAP_WET':12,'CONZ_PROX':13,'CONZ_PEOP':14,'POP':15,'SEXR':16,'KW_UPTOSEC':17,'KW_ILLIT':18,'LF_FISH':19,'LF_CROP':20,'LF_ANI':21,'LF_WAGED':22,'INDLIVELI':23,'MIGRANTS':24,'FP_WRK':25,'FP_FEMWRK':26,'PL_P1HH':27,'PL_P2HH':28,'PL_NONPHH':29,'RYLD_WET':30,'RYLD_DRY':31,'LA_RICE1HA':32,'LA_CULT1HA':33}
 
 	for i in range(len(screnlist)):
 		a=screnlist[i].split(',')

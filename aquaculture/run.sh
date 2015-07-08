@@ -7,20 +7,20 @@ echo "self-test system for TonleSap mapping structure"
 
 python TLA.py
 
-echo "First test: MA_INDACT + SW_PRORIV + weigt=1.0,1.0 + better=m,l"
-echo "TLA.py 0 0 1.0,1.0 m,l"
+#echo "First test: MA_INDACT + SW_PROXRIV + weigt=1.0,1.0 + better=m,l"
+#echo "TLA.py 0 0 1.0,1.0 m,l"
 
-python TLA.py 0 0 1.0,1.0 m,l
+#python TLA.py 0 0 1.0,1.0 m,l
 
-#echo "Second test: proxroad + wet + proxriv + weigt=1.0,1.0,1.0 + better=m,l,l + scren=TOPOZONE<=2"
-#echo "TLA.py 0 1 0 1.0,1.0,1.0 m,l,l TOPOZONE,le,2"
+#echo "Second test: MA_INDACT + SW_PROXRIV + weigt=1.0,1.0 + better=m,l + scren=TOPOZONE<=2"
+#echo "TLA.py 0 0 1.0,1.0 m,l TOPOZONE,le,2"
 
-#python -i TLA.py 0 1 0 1.0,1.0,1.0 m,l,l TOPOZONE,le,2
+#python TLA.py 0 0 1.0,1.0 m,l TOPOZONE,le,2
 
-#echo "Third test: proxroad + wet + proxriv + weigt=1.0,1.0,1.0 + better=m,l,l + scren=TOPOZONE<2,POP>800"
-#echo "TLA.py 0 1 0 1.0,1.0,1.0 m,l,l TOPOZONE,lt,2 POP,gt,800"
+echo "Third test: MA_INDACT + SW_PROXRIV + weigt=1.0,1.0 + better=m,l + scren=TOPOZONE<2,POP>120.0"
+echo "TLA.py 0 0 1.0,1.0 m,l TOPOZONE,lt,2 POP,gt,120.0"
 
-#python TLA.py 0 1 0 1.0,1.0,1.0 m,l,l TOPOZONE,lt,2 POP,gt,800
+python TLA.py 0 0 1.0,1.0 m,l TOPOZONE,lt,2 POP,gt,120
 
 
 #Scenario 1
