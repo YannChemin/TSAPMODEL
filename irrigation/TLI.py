@@ -101,33 +101,33 @@ critno=[]
 #Access MA_INDACT Full Column with data[:,37]
 #Access MA_PROXROAD Full Column with data[:,38]
 if(int(crit1)==0):
-	critno.append(mastcritno[0])
+	critno.append(mastercritno[0])
 else:
-	critno.append(mastcritno[1])
+	critno.append(mastercritno[1])
 #Access TAGAP_DRY Full Column with data[:,39]
 #Access TAGAP_WET Full Column with data[:,40]
 if(int(crit2)==0):
-	critno.append(mastcritno[2])
+	critno.append(mastercritno[2])
 else:
-	critno.append(mastcritno[3])
+	critno.append(mastercritno[3])
 #Access SW_PROXRIV Full Column with data[:,41]
 #Access SW_PONDS Full Column with data[:,42]
 if(int(crit3)==0):
-	critno.append(mastcritno[4])
+	critno.append(mastercritno[4])
 elif(int(crit3)==1):
-	critno.append(mastcritno[5])
+	critno.append(mastercritno[5])
 #Access GW_DWELL Full Column with data[:,43]
 #Access GW_BOREW Full Column with data[:,44]
 elif(int(crit3)==2):
-	critno.append(mastcritno[6])
+	critno.append(mastercritno[6])
 elif(int(crit3)==3):
-	critno.append(mastcritno[7])
+	critno.append(mastercritno[7])
 #Access IRRI_SCH Full Column with data[:,45]
 #Access IRRI_HEAD Full Column with data[:,46]
 elif(int(crit3)==4):
-	critno.append(mastcritno[8])
+	critno.append(mastercritno[8])
 else:
-	critno.append(mastcritno[9])
+	critno.append(mastercritno[9])
 
 
 #Collect the weight list

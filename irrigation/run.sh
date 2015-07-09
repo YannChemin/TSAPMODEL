@@ -7,10 +7,10 @@ echo "self-test system for TonleSap mapping structure"
 
 python TLI.py
 
-#echo "First test: proxroad + wet + proxriv + weigt=1.0,1.0,1.0 + better=m,l,l"
-#echo "TLI.py 0 1 0 1.0,1.0,1.0 m,l,l"
+echo "First test: proxroad + wet + proxriv + weigt=1.0,1.0,1.0 + better=m,l,l"
+echo "TLI.py 0 1 0 1.0,1.0,1.0 m,l,l"
 
-#python TLI.py 0 1 0 1.0,1.0,1.0 m,l,l
+python TLI.py 0 1 0 1.0,1.0,1.0 m,l,l
 
 #echo "Second test: proxroad + wet + proxriv + weigt=1.0,1.0,1.0 + better=m,l,l + scren=TOPOZONE<=2"
 #echo "TLI.py 0 1 0 1.0,1.0,1.0 m,l,l TOPOZONE,le,2"
@@ -79,4 +79,4 @@ echo "Scenario 3"
 
 
 echo "Scenario 4"
-python TLI.py 1 0 3 1.0,1.0,1.0 l,m,m RYLD_DRY,le,2.5 INDLIVELI,lt,1.02 PL_P1HH,lt,144.6 INUNDATION,lt,1.89 SOIL_LOWP,eq,0
+#python TLI.py 1 0 3 1.0,1.0,1.0 l,m,m RYLD_DRY,le,2.5 INDLIVELI,lt,1.02 PL_P1HH,lt,144.6 INUNDATION,lt,1.89 SOIL_LOWP,eq,0
