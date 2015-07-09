@@ -26,7 +26,7 @@ def usage():
 	print("\tit tells the program to mask out using thresholds")
 	print("\tOnly 5 screening criteria will be read, no warning if more")
 	print("\tavailable types are:")
-	print("\tTOPOZONE,INUNDATION,ELEVATION,DRYRAIN,SOIL_LOWP,SOIL_MEDP,SOIL_HIGHP,TAGAP_DRY,TAGAP_WET,CONZ_PROX,CONZ_PEOP,POP,SEXR,KW_UPTOSEC,KW_ILLIT,LF_RICE,LF_VEGE,LF_LSC,LF_WAGED,INDLIVELI,MIGRANTS,PL_P1HH,PL_P2HH,PL_NONPHH,RYLD_WET,RYLD_DRY,RYLD_DANDW,RYLD_RANDI,LA_RICE1HA,LA_CULT1HA,INDAGRIM,A_IRRIC,A_IRRIR,A_IRRIP,A_IRRIW")
+	print("\tTOPOZONE,INUNDATION,ELEVATION,DRYRAIN,SOIL_LOWP,SOIL_MEDP,SOIL_HIGHP,CONZ_PROX,CONZ_PEOP,POP,SEXR,KW_UPTOSEC,KW_ILLIT,LF_RICE,LF_VEGE,LF_LSC,LF_WAGED,INDLIVELI,MIGRANTS,PL_P1HH,PL_P2HH,PL_NONPHH,RYLD_WET,RYLD_DRY,RYLD_DANDW,RYLD_RANDI,LA_RICE1HA,LA_CULT1HA,INDAGRIM,A_IRRIC,A_IRRIR,A_IRRIP,A_IRRIW")
 	print("\t")
 	print("\ti.e. TOPOZONE,le,3 (comma separators are compulsory)")
 	print("\ti.e. ELEVATION,ge,5")
@@ -54,8 +54,6 @@ import numpy as np
 
 data = np.genfromtxt("tablefile.csv", skip_header=1, delimiter=",")
 #Clarify the table access order, TO BE CHANGED IF NEW tablefile.csv
-#Access XCOORD Full Column with data[:,137]
-#Access YCOORD Full Column with data[:,138]
 XL=np.asarray(data[:,0])
 YL=np.asarray(data[:,1])
 #Create Village output list
@@ -63,21 +61,21 @@ VL=np.zeros(data.shape[0])
 #Create Village MASK list
 MK=np.ones(data.shape[0])
 #Create outranking criteria column list
-#Access MA_INDACT Full Column with data[:,39]
-#Access MA_PROXROAD Full Column with data[:,40]
+#Access MA_INDACT Full Column with data[:,37]
+#Access MA_PROXROAD Full Column with data[:,38]
 
-#Access TAGAP_DRY Full Column with data[:,41]
-#Access TAGAP_WET Full Column with data[:,42]
+#Access TAGAP_DRY Full Column with data[:,39]
+#Access TAGAP_WET Full Column with data[:,40]
 
-#Access SW_PROXRIV Full Column with data[:,43]
-#Access SW_PONDS Full Column with data[:,44]
-#Access GW_DWELL Full Column with data[:,45]
-#Access GW_BOREW Full Column with data[:,46]
-#Access IRRI_SCH Full Column with data[:,47]
-#Access IRRI_HEAD Full Column with data[:,48]
+#Access SW_PROXRIV Full Column with data[:,41]
+#Access SW_PONDS Full Column with data[:,42]
+#Access GW_DWELL Full Column with data[:,43]
+#Access GW_BOREW Full Column with data[:,44]
+#Access IRRI_SCH Full Column with data[:,45]
+#Access IRRI_HEAD Full Column with data[:,46]
 
 #set critcolno with any of the critno[index]
-mastercritno=[39,40,41,42,43,44,45,46,47,48]
+mastercritno=[37,38,39,40,41,42,43,44,45,46]
 
 #------------------------
 #PARSING ARGUMENTS
@@ -100,36 +98,36 @@ crit3=sys.argv[3]
 
 #Create column index of selected criteria 
 critno=[]
-#Access MA_INDACT Full Column with data[:,39]
-#Access MA_PROXROAD Full Column with data[:,40]
+#Access MA_INDACT Full Column with data[:,37]
+#Access MA_PROXROAD Full Column with data[:,38]
 if(int(crit1)==0):
-	critno.append(39)
+	critno.append(mastcritno[0])
 else:
-	critno.append(40)
-#Access TAGAP_DRY Full Column with data[:,41]
-#Access TAGAP_WET Full Column with data[:,42]
+	critno.append(mastcritno[1])
+#Access TAGAP_DRY Full Column with data[:,39]
+#Access TAGAP_WET Full Column with data[:,40]
 if(int(crit2)==0):
-	critno.append(41)
+	critno.append(mastcritno[2])
 else:
-	critno.append(42)
-#Access SW_PROXRIV Full Column with data[:,43]
-#Access SW_PONDS Full Column with data[:,44]
+	critno.append(mastcritno[3])
+#Access SW_PROXRIV Full Column with data[:,41]
+#Access SW_PONDS Full Column with data[:,42]
 if(int(crit3)==0):
-	critno.append(43)
+	critno.append(mastcritno[4])
 elif(int(crit3)==1):
-	critno.append(44)
-#Access GW_DWELL Full Column with data[:,45]
-#Access GW_BOREW Full Column with data[:,46]
+	critno.append(mastcritno[5])
+#Access GW_DWELL Full Column with data[:,43]
+#Access GW_BOREW Full Column with data[:,44]
 elif(int(crit3)==2):
-	critno.append(45)
+	critno.append(mastcritno[6])
 elif(int(crit3)==3):
-	critno.append(46)
-#Access IRRI_SCH Full Column with data[:,47]
-#Access IRRI_HEAD Full Column with data[:,48]
+	critno.append(mastcritno[7])
+#Access IRRI_SCH Full Column with data[:,45]
+#Access IRRI_HEAD Full Column with data[:,46]
 elif(int(crit3)==4):
-	critno.append(47)
+	critno.append(mastcritno[8])
 else:
-	critno.append(48)
+	critno.append(mastcritno[9])
 
 
 #Collect the weight list
@@ -159,7 +157,7 @@ if(len(sys.argv)>6):
 		if(i<=10):
 			screnlist.append(sys.argv[i])
 
-	scren={'TOPOZONE':4,'INUNDATION':5,'ELEVATION':6,'DRYRAIN':7,'SOIL_LOWP':8,'SOIL_MEDP':9,'SOIL_HIGHP':10,'TAGAP_DRY':11,'TAGAP_WET':12,'CONZ_PROX':13,'CONZ_PEOP':14,'POP':15,'SEXR':16,'KW_UPTOSEC':17,'KW_ILLIT':18,'LF_RICE':19,'LF_VEGE':20,'LF_LSC':21,'LF_WAGED':22,'INDLIVELI':23,'MIGRANTS':24,'PL_P1HH':25,'PL_P2HH':26,'PL_NONPHH':27,'RYLD_WET':28,'RYLD_DRY':29,'RYLD_DANDW':30,'RYLD_RANDI':31,'LA_RICE1HA':32,'LA_CULT1HA':33,'INDAGRIM':34,'A_IRRIC':35,'A_IRRIR':36,'A_IRRIP':37,'A_IRRIW':38}
+	scren={'TOPOZONE':4,'INUNDATION':5,'ELEVATION':6,'DRYRAIN':7,'SOIL_LOWP':8,'SOIL_MEDP':9,'SOIL_HIGHP':10,'CONZ_PROX':11,'CONZ_PEOP':12,'POP':13,'SEXR':14,'KW_UPTOSEC':15,'KW_ILLIT':16,'LF_RICE':17,'LF_VEGE':18,'LF_LSC':19,'LF_WAGED':20,'INDLIVELI':21,'MIGRANTS':22,'PL_P1HH':23,'PL_P2HH':24,'PL_NONPHH':25,'RYLD_WET':26,'RYLD_DRY':27,'RYLD_DANDW':28,'RYLD_RANDI':29,'LA_RICE1HA':30,'LA_CULT1HA':31,'INDAGRIM':32,'A_IRRIC':33,'A_IRRIR':34,'A_IRRIP':35,'A_IRRIW':36}
 
 	for i in range(len(screnlist)):
 		a=screnlist[i].split(',')
