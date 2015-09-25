@@ -11,13 +11,14 @@ def usage():
 	print("Usage:")
 	print("----------------------------------------------------------")
 	print("This program needs the tablefile.csv in the same directory\n")
-	print("TLA.exe crit1 crit2 weigt btter scren")
+	print("TLA.exe crit1 crit2 crit3 weigt btter scren")
 	print("\n\n")
-	print("It will run with 2 criteria:") 
+	print("It will run with 3 criteria:") 
 	print("\tcrit1: MA_INDACT, MA_PROXROAD (1 choice)") 
-	print("\tcrit2: SW_PROXRIV, SW_PONDS, FISHPRO (1 choice)") 
-	print("\tweigt: 0.0[,0.0[,..]] (comma separated float vals)") 
-	print("\tbtter: m[,m[,..]] (comma separated [m;l], i.e. more or less)") 
+	print("\tcrit2: SW_PROXRIV, SW_PONDS (1 choice)") 
+	print("\tcrit3: FISHPRO (compulsory)") 
+	print("\tweigt: 0.0,0.0,0.0 (comma separated float vals)") 
+	print("\tbtter: m,m,m (comma separated [m or l], i.e. more or less)") 
 	print("\tscren: POP,>,200 [ SEXR,<,0.5 [ ..]] (comma separated info)") 
 	print("----------------------------------------------------------")
 	print("\tscren is a set of screening columns thresholds")
@@ -34,15 +35,15 @@ def usage():
 	print("----------------------------------------------------------")
 	os.system("tput setaf 3")
 	print("Example 1:") 
-	print("TL.py 0 0 1.0,1.0 m,l") 
+	print("TL.py 0 0 0 1.0,1.0 m,l,l") 
 	print("Means that:") 
-	print("TL.py MA_INDACT SW_PROXRIV 1.0,1.0 more,less") 
+	print("TL.py MA_INDACT SW_PROXRIV FISHPRO 1.0,1.0,1.0 more,less,less") 
 	print("----------------------------------------------------------")
 	os.system("tput setaf 4")
 	print("Example 2:") 
-	print("TL.py 0 1 1.0,1.0 m,l TOPOZONE,le,3") 
+	print("TL.py 0 1 0 1.0,1.0,1.0 m,l,l TOPOZONE,le,3") 
 	print("Means that:") 
-	print("TL.py MA_INDACT SW_PONDS 1.0,1.0 more,less with TOPOZONE less or equal to 3") 
+	print("TL.py MA_INDACT SW_PONDS FISHPRO 1.0,1.0,1.0 more,less,less with TOPOZONE less or equal to 3") 
 	print("----------------------------------------------------------")
 	print("\n") 
 	os.system("tput setaf 9")
@@ -88,6 +89,7 @@ if (len(sys.argv) < 5):
 #Collect the user's choices for the criteria
 crit1=sys.argv[1]
 crit2=sys.argv[2]
+crit3=sys.argv[3]
 
 #Create column index of selected criteria 
 critno=[]
@@ -95,43 +97,54 @@ critno=[]
 #Access MA_PROXROAD Full Column with data[:,35]
 if(int(crit1)==0):
 	critno.append(mastercritno[0])
-else:
+elif(int(crit1)==1):
 	critno.append(mastercritno[1])
+else:
+	os.system("tput setaf 1")
+	print("\ncrit1 is either 0 or 1")
+	os.system("tput setaf 9")
+	usage()
+	exit(1)
 #Access SW_PROXRIV Full Column with data[:,36]
 #Access SW_PONDS Full Column with data[:,37]
-#Access FISHPRO Full Column with data[:,38]
 if(int(crit2)==0):
 	critno.append(mastercritno[2])
 elif(int(crit2)==1):
 	critno.append(mastercritno[3])
 else:
-	critno.append(mastercritno[4])
-
+	os.system("tput setaf 1")
+	print("\ncrit2 is either 0 or 1")
+	os.system("tput setaf 9")
+	usage()
+	exit(1)
+#Compulsory 3rd criterium
+#Access FISHPRO Full Column with data[:,38]
+critno.append(mastercritno[4])
 
 #Collect the weight list
 w=[]
-w.extend(sys.argv[3].split(","))
-if(len(w)<2):
+w.extend(sys.argv[4].split(","))
+if(len(w)<3):
 	os.system("tput setaf 1")
-	print("\nWeights list has less than 2 criteria members")
+	print("\nWeights list has less than 3 criteria members")
 	os.system("tput setaf 9")
 	usage()
 	exit(1)
 
 #Collect the "more/less is better" list
 lmib=[]
-lmib.extend(sys.argv[4].split(','))
-if(len(lmib)<2):
+lmib.extend(sys.argv[5].split(','))
+if(len(lmib)<3):
 	os.system("tput setaf 1")
-	print("\nList of 'more/less' has less than 2 criteria members")
+	print("\nList of 'more/less' has less than 3 criteria members")
 	os.system("tput setaf 9")
 	usage()
 	exit(1)
 
-if(len(sys.argv)>5):
+if(len(sys.argv)>6):
 	#Create the masking list
 	screnlist=[]
-	for i in range(5,len(sys.argv),1):
+	for i in range(6,len(sys.argv),1):
 		if(i<=5):
 			screnlist.append(sys.argv[i])
 
