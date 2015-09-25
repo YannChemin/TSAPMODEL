@@ -154,7 +154,7 @@ if(len(sys.argv)>6):
 	#Create the masking list
 	screnlist=[]
 	for i in range(6,len(sys.argv),1):
-		if(i<=10):
+		if(i<=5):
 			screnlist.append(sys.argv[i])
 
 	scren={'TOPOZONE':4,'INUNDATION':5,'ELEVATION':6,'DRYRAIN':7,'SOIL_LOWP':8,'SOIL_MEDP':9,'SOIL_HIGHP':10,'CONZ_PROX':11,'CONZ_PEOP':12,'POP':13,'SEXR':14,'KW_UPTOSEC':15,'KW_ILLIT':16,'LF_RICE':17,'LF_VEGE':18,'LF_LSC':19,'LF_WAGED':20,'INDLIVELI':21,'MIGRANTS':22,'PL_P1HH':23,'PL_P2HH':24,'PL_NONPHH':25,'RYLD_WET':26,'RYLD_DRY':27,'RYLD_DANDW':28,'RYLD_RANDI':29,'LA_RICE1HA':30,'LA_CULT1HA':31,'INDAGRIM':32,'A_IRRIC':33,'A_IRRIR':34,'A_IRRIP':35,'A_IRRIW':36}
