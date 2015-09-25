@@ -12,11 +12,14 @@ def usage():
 	print("Usage:")
 	print("----------------------------------------------------------")
 	print("This program needs the tablefile.csv in the same directory\n")
-	print("TLP.exe crit1 btter scren")
+	print("TLP.exe crit1 weigt btter scren")
 	print("\n\n")
 	print("It will run with one criteria:") 
-	print("\tcrit1: WA_AWAY, WS_UNSAFE, WT_UNTREAT (1 choice)") 
-	print("\tbtter: m (more) or l (less)") 
+	print("\tcrit1: WA_AWAY (Compulsory, use 0)") 
+	print("\tcrit2: WS_UNSAFE (Compulsory, use 0)") 
+	print("\tcrit3: WT_UNTREAT (Compulsory, use 0)") 
+	print("\tweigt: 1.0,1.0,0.0 [0.0-1.0]") 
+	print("\tbtter: m,m,l [m (more) or l (less)]") 
 	print("\tscren: POP,>,200 [ SEXR,<,0.5 [ ..]] (comma separated info)") 
 	print("----------------------------------------------------------")
 	print("\tscren is a set of screening columns thresholds")
@@ -33,15 +36,15 @@ def usage():
 	print("----------------------------------------------------------")
 	os.system("tput setaf 3")
 	print("Example 1:") 
-	print("TL.py 0 m") 
+	print("TL.py 0 0 0 1.0,1.0,1.0 m,m,l") 
 	print("Means that:") 
-	print("TL.py WA_AWAY more") 
+	print("TL.py WA_AWAY WS_UNSAFE WT_UNTREAT 1.0,1.0,1.0 more,more,less") 
 	print("----------------------------------------------------------")
 	os.system("tput setaf 4")
 	print("Example 2:") 
-	print("TL.py 0 m TOPOZONE,le,3") 
+	print("TL.py 0 0 0 1.0,1.0,1.0 m,m,l TOPOZONE,le,3") 
 	print("Means that:") 
-	print("TL.py WA_AWAY more with TOPOZONE less or equal to 3") 
+	print("TL.py WA_AWAY WS_UNSAFE WT_UNTREAT 1.0,1.0,1.0 more,more,less with TOPOZONE less or equal to 3") 
 	print("----------------------------------------------------------")
 	print("\n") 
 	os.system("tput setaf 9")
@@ -66,8 +69,7 @@ MK=np.ones(data.shape[0])
 
 #set critcolno with any of the critno[index]
 mastercritno=[36,37,38]
-#to keep functions identical across
-w=[1.0]
+
 #------------------------
 #PARSING ARGUMENTS
 #------------------------
@@ -75,7 +77,7 @@ w=[1.0]
 #Minimum number of input variables
 #1 csv weights list
 #1 csv better list (more is better="m")
-if (len(sys.argv) < 3):
+if (len(sys.argv) < 5):
 	os.system("tput setaf 1")
 	print("\ninsufficient amount of input variables")
 	os.system("tput setaf 9")
@@ -84,33 +86,42 @@ if (len(sys.argv) < 3):
 
 #Collect the user's choices for the criteria
 crit1=sys.argv[1]
+crit2=sys.argv[2]
+crit3=sys.argv[3]
 
 #Create column index of selected criteria 
 critno=[]
 #Access WA_AWAY Full Column with data[:,36]
+critno.append(mastercritno[0])
 #Access WS_UNSAFE Full Column with data[:,37]
+critno.append(mastercritno[1])
 #Access WS_UNTREAT Full Column with data[:,38]
-if(int(crit1)==0):
-	critno.append(mastercritno[0])
-elif(int(crit1)==1):
-	critno.append(mastercritno[1])
-else:
-	critno.append(mastercritno[2])
+critno.append(mastercritno[2])
 
-#Collect the "more/less is better" list
-lmib=[]
-lmib.append(sys.argv[2])
-if(len(lmib)<1):
+#Collect the weight list
+w=[]
+w.extend(sys.argv[3].split(","))
+if(len(w)<3):
 	os.system("tput setaf 1")
-	print("\nList of 'more/less' has less than 1 criteria member")
+	print("\nWeights list has less than 3 criteria members")
 	os.system("tput setaf 9")
 	usage()
 	exit(1)
 
-if(len(sys.argv)>3):
+#Collect the "more/less is better" list
+lmib=[]
+lmib.append(sys.argv[4].split(","))
+if(len(lmib)<3):
+	os.system("tput setaf 1")
+	print("\nList of 'more/less' has less than 3 criteria member")
+	os.system("tput setaf 9")
+	usage()
+	exit(1)
+
+if(len(sys.argv)>4):
 	#Create the masking list
 	screnlist=[]
-	for i in range(3,len(sys.argv),1):
+	for i in range(5,len(sys.argv),1):
 		if(i<=5):
 			screnlist.append(sys.argv[i])
 
