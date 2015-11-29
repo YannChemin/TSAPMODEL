@@ -161,24 +161,25 @@ if(len(sys.argv)>6):
 			d=float(a[2])#Get threshold value
 			print(d)
 			#nullify the MK output multiplicator if applies
+			#here we should mask the opposite of the threshold
 			for i in range(data.shape[0]):
 				if(c=='le'):
-					if(data[i,b]<=d):
+					if(data[i,b]>d):
 						MK[i]=0	
 				elif(c=='ge'):
-					if(data[i,b]>=d):
-						MK[i]=0	
-				elif(c=='eq'):
-					if(data[i,b]==d):
-						MK[i]=0	
-				elif(c=='ne'):
-					if(data[i,b]!=d):
-						MK[i]=0	
-				elif(c=='lt'):
 					if(data[i,b]<d):
 						MK[i]=0	
+				elif(c=='eq'):
+					if(data[i,b]!=d):
+						MK[i]=0	
+				elif(c=='ne'):
+					if(data[i,b]==d):
+						MK[i]=0	
+				elif(c=='lt'):
+					if(data[i,b]>=d):
+						MK[i]=0	
 				elif(c=='gt'):
-					if(data[i,b]>d):
+					if(data[i,b]<=d):
 						MK[i]=0	
 				else:
 					#do nothing
